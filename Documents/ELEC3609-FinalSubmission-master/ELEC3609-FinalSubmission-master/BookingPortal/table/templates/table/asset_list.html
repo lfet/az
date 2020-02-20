@@ -1,0 +1,19 @@
+{% extends "table/base.html" %}
+
+{% block content %}
+    {% for asset in assets %}
+        <article class="media content-section">
+        <img class="rounded-circle article-img" src="{{ asset.business_owner.profile.image.url }}" alt=":(">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ asset.business_owner }}</a>
+              <small class="text-muted">Availability - {{ asset.hour_start }}:{{ asset.hour_end }} (24 Hour Time)</small>
+            </div>
+            <h2><a class="article-title" href="/dashboard/{{asset.business_owner.username}}/{{asset.title}}/bookingtable">{{ asset.title }}</a></h2>
+              <p class="article-content"><b>Location:</b> {{ asset.location }}</p>
+              <p class="article-content"><b>Description:</b>
+                {{ asset.description }}</p>
+          </div>
+        </article>
+    {% endfor %}
+{% endblock content %}

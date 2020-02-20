@@ -1,0 +1,79 @@
+{% extends "table/base.html" %}
+
+{% block content %}
+<br>
+<h2 class="text-center">Booking Table for Asset: {{ asset.title }}</h2>
+<br>
+{% if user == asset.business_owner %}
+<div class="text-center">
+    <a class ="btn btn-secondary text-center btn-lg mt-1 mb-1" href="/dashboard/{{asset.business_owner}}/{{asset.title}}/update/{{asset.id}}">Update</a>
+    <&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp>
+    <a class ="btn btn-danger text-center btn-lg mt-1 mb-1" href="/dashboard/{{asset.business_owner}}/{{asset.title}}/delete/{{asset.id}}">Delete</a>
+</div>
+<br>
+{% endif %}
+<div class="d-flex justify-content-center">
+<table class="table table-borderless text-center">
+  <thead>
+    <tr>
+      <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col">Monday</th>
+            <th scope="col">Tuesday</th>
+            <th scope="col">Wednesday</th>
+            <th scope="col">Thursday</th>
+            <th scope="col">Friday</th>
+            <th scope="col">Saturday</th>
+            <th scope="col">Sunday</th>
+    </tr>
+  </thead>
+  <tbody>
+
+<!--  For every hour in bookings-->
+    {% for hour in bookings %}
+
+    <th>
+
+        <!--   Change HH 24 Hour Format to AM/PM for row for each hour     -->
+        {% if asset.hour_start|add:forloop.counter0 > 12 %}
+            <th scope="row">{{ asset.hour_start|add:forloop.counter0|add:-12 }} PM</th>
+        {% endif %}
+        {% if asset.hour_start|add:forloop.counter0 < 12 and asset.hour_start|add:forloop.counter0 > 0%}
+             <th scope="row">{{ asset.hour_start|add:forloop.counter0 }} AM</th>
+        {% endif %}
+        {% if asset.hour_start|add:forloop.counter0 == 0 %}
+             <th scope="row">12 AM</th>
+        {% endif %}
+        {% if asset.hour_start|add:forloop.counter0 == 12 %}
+             <th scope="row">12 PM</th>
+        {% endif %}
+
+        <!-- for loops 'horizontally' in that for every hour (previous loop) check status for each day and
+         produce appropriate item -->
+
+        {% for status in hour %}
+            {% if status == 'A' %}
+                <td class="available"><a class="available2" href="/dashboard/{{asset.business_owner.username}}/{{asset.title}}/makebooking">AVAILABLE</a></td>
+            {% endif %}
+            {% if status == 'B' %}
+                <td class="booked">BOOKED</td>
+            {% endif %}
+            {% if status == 'U' %}
+                <td class="unavailable">UNAVAILABLE</td>
+            {% endif %}
+        {% endfor %}
+
+        </tr>
+
+    {% endfor %}
+
+  </tbody>
+</table>
+</div>
+<br>
+<br>
+<br>
+<br>
+
+
+{% endblock content %}

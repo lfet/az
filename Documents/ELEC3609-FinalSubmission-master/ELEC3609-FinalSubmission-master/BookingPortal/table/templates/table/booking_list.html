@@ -1,0 +1,39 @@
+{% extends "table/base.html" %}
+
+{% block content %}
+
+    {% for booking in bookings %}
+        {% if user == booking.user_booker or user == booking.business_asset.business_owner %}
+        <article class="media content-section">
+        {% if user == booking.user_booker %}
+            <img class="rounded-circle article-img" src="{{ booking.business_asset.business_owner.profile.image.url }}" alt=":(">
+        {% endif %}
+        {% if user == booking.business_asset.business_owner %}
+            <img class="rounded-circle article-img" src="{{ booking.user_booker.profile.image.url }}" alt=":(">
+        {% endif %}
+
+                <div class="media-body">
+                    <div class="article-metadata">
+
+                      {% if user == booking.user_booker %}
+                            <a class="mr-2" href="/dashboard/viewbookingtables/{{booking.business_asset.business_owner.username}}">{{ booking.business_asset.business_owner.username }}</a>
+                        {% endif %}
+                        {% if user == booking.business_asset.business_owner %}
+                            <a class="mr-2">{{ booking.user_booker.username }}</a>
+                        {% endif %}
+
+                      <small class="text-muted">{{ booking.booking_time }} {{ booking.booking_day }}  </small>
+<!--                <a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</a>-->
+<!--                <br><a class ="btn btn-secondary pull-right btn-sm mt-1 mb-1" href="">Update</a>-->
+                <a class ="btn btn-danger pull-right btn-sm mt-1 mb-1" href="/dashboard/viewbookings/{{booking.id}}/delete">Delete</a>
+            </div>
+            <h2><a class="article-title" href="/dashboard/{{booking.business_asset.business_owner.username}}/{{booking.business_asset.title}}/bookingtable">{{ booking.business_asset.title }}</a></h2>
+                <p class="article-content"><b>Location:</b> {{ booking.business_asset.location }}</p>
+                <p class="article-content"><b>Description:</b>
+                    {{ booking.business_asset.description }}</p>
+          </div>
+        </article>
+        {% endif %}
+    {% endfor %}
+
+{% endblock content %}
