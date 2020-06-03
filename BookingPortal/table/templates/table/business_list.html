@@ -1,0 +1,35 @@
+{% extends "table/base.html" %}
+
+{% block content %}
+
+<br>
+<h2> List of Businesses for your search: {{ username }}</h2>
+<br>
+<br>
+
+    {% for business in businesses %}
+        {% if business.profile.userType == 'Business' and username|lower in business.username|lower %}
+        <article class="media content-section">
+        <img class="rounded-circle article-img" src="{{ business.profile.image.url }}" alt=":(">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="/dashboard/viewbookingtables/{{ business.username }}">{{ business.username }}</a>
+<!--              <small class="text-muted">{{ booking.booking_time }} {{ booking.booking_day }}</small>-->
+            </div>
+              {% for asset in assets %}
+                {% if asset.business_owner == business %}
+                    <h2><a class="article-title" href="/dashboard/{{business.username}}/{{asset.title}}/bookingtable">{{ asset.title }}</a></h2>
+                      <p class="article-content"><b>Location:</b> {{ asset.location }}</p>
+                      <p class="article-content"><b>Description:</b>
+                        {{ asset.description }}</p>
+                {% endif %}
+              {% endfor %}
+          </div>
+        </article>
+        {% endif %}
+    {% endfor %}
+
+
+
+
+{% endblock content %}

@@ -1,0 +1,32 @@
+{% extends "table/base.html" %}
+
+{% block content %}
+    <br>
+    <h1 class="text-center">Hello {{ user.username }}!</h1>
+    <br>
+    <br>
+    <h2 class="text-center text-success shadow-lg">Welcome to your {{ user.profile.userType }} Dashboard</h2>
+    <BR>
+    <br>
+<!--Navigation for User-->
+{% if user.profile.userType == 'User' %}
+    <button onclick="location.href='{% url 'table-viewbookings' %}'" type="button" class="shadow btn btn-info btn-lg btn-block">View Bookings</button>
+    <br>
+    <button onclick="location.href='{% url 'profile' %}'" type="button" class="btn btn-secondary btn-lg btn-block">Update Account</button>
+    <br>
+    <button onclick="location.href='{% url 'table-searchbusinesses' %}'" type="button" class="btn btn-info btn-lg btn-block">Search Businesses</button>
+{% endif %}
+
+<!--Navigation for Business-->
+{% if user.profile.userType == 'Business' %}
+    <button onclick="location.href='{% url 'table-viewbookings' %}'" type="button" class="btn btn-info btn-lg btn-block">View Bookings</button>
+    <br>
+    <button onclick="location.href='{% url 'profile' %}'" type="button" class="btn btn-secondary btn-lg btn-block">Update Account</button>
+    <br>
+    <button onclick="location.href='{% url 'table-asset_form' %}'" type="button" class="btn btn-info btn-lg btn-block">Create Booking Table</button>
+    <br>
+    <button onclick="location.href='/dashboard/viewbookingtables/{{ user.username }}'" type="button" class="btn btn-secondary btn-lg btn-block">View Booking Tables</button>
+
+{% endif %}
+
+{% endblock content %}
